@@ -2,7 +2,7 @@
  * Provider and model configuration types for multi-provider support
  */
 
-export type ProviderType = 'anthropic' | 'openai' | 'google' | 'xai' | 'ollama' | 'deepseek' | 'zai' | 'custom' | 'bedrock';
+export type ProviderType = 'anthropic' | 'openai' | 'openrouter' | 'google' | 'xai' | 'ollama' | 'deepseek' | 'zai' | 'custom' | 'bedrock' | 'litellm';
 
 export interface ProviderConfig {
   id: ProviderType;
@@ -46,6 +46,44 @@ export interface OllamaConfig {
   enabled: boolean;
   lastValidated?: number;
   models?: OllamaModelInfo[];  // Discovered models from Ollama API
+}
+
+/**
+ * OpenRouter model info from API
+ */
+export interface OpenRouterModel {
+  id: string;           // e.g., "anthropic/claude-3.5-sonnet"
+  name: string;         // e.g., "Claude 3.5 Sonnet"
+  provider: string;     // e.g., "anthropic" (extracted from id)
+  contextLength: number;
+}
+
+/**
+ * OpenRouter configuration
+ */
+export interface OpenRouterConfig {
+  models: OpenRouterModel[];
+  lastFetched?: number;
+}
+
+/**
+ * LiteLLM model info from API
+ */
+export interface LiteLLMModel {
+  id: string;           // e.g., "openai/gpt-4"
+  name: string;         // Display name (same as id for LiteLLM)
+  provider: string;     // Extracted from model ID
+  contextLength: number;
+}
+
+/**
+ * LiteLLM configuration
+ */
+export interface LiteLLMConfig {
+  baseUrl: string;      // e.g., "http://localhost:4000"
+  enabled: boolean;
+  lastValidated?: number;
+  models?: LiteLLMModel[];
 }
 
 /**
